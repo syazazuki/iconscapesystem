@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ICONSCAPE</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+font-family:Arial;
+overflow:hidden;
+background:black;
+color:white;
+}
+
+.intro{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+animation:fadeOut 2s forwards;
+animation-delay:4s;
+z-index:999;
+}
+
+.intro h1{
+font-size:90px;
+color:red;
+text-shadow:0 0 20px red;
+animation:flicker 1s infinite;
+}
+
+@keyframes flicker{
+0%{opacity:1;}
+50%{opacity:0.5;}
+100%{opacity:1;}
+}
+
+@keyframes fadeOut{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
+
+.main{
+
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:
+linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+url('poster.png');
+
+background-size:cover;
+background-position:center;
+}
+
+.box{
+
+width:450px;
+
+padding:40px;
+
+background:rgba(0,0,0,0.8);
+
+border:3px solid red;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:0 0 30px red;
+}
+
+h2{
+font-size:55px;
+color:red;
+}
+
+select{
+
+width:100%;
+
+padding:15px;
+
+margin-top:20px;
+
+font-size:20px;
+
+background:#111;
+
+color:white;
+
+border:2px solid red;
+
+border-radius:15px;
+}
+
+button{
+
+width:100%;
+
+padding:15px;
+
+margin-top:20px;
+
+font-size:24px;
+
+font-weight:bold;
+
+background:red;
+
+color:white;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+<h1>ICONSCAPE</h1>
+
+<p>BREAKOUT CHALLENGE</p>
+
+</div>
+
+<div class="main">
+
+<div class="box">
+
+<h2>ACCESS</h2>
+
+<select id="group">
+
+<option value="">-- SELECT GROUP --</option>
+
+<option>GROUP 1</option>
+<option>GROUP 2</option>
+<option>GROUP 3</option>
+<option>GROUP 4</option>
+<option>GROUP 5</option>
+<option>GROUP 6</option>
+<option>GROUP 7</option>
+
+</select>
+
+<button onclick="startGame()">
+ENTER
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function startGame(){
+
+const group =
+document.getElementById("group").value;
+
+if(group === ""){
+
+alert("Select your group first.");
+
+return;
+}
+
+localStorage.setItem("groupName",group);
+
+window.location.href = "escape.html";
+}
+
+</script>
+
+</body>
+</html>
