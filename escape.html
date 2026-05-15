@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FINAL ACCESS</title>
+
+<style>
+
+body{
+
+margin:0;
+
+height:100vh;
+
+font-family:Arial;
+
+background:
+linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.95)),
+url('poster.png');
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+
+color:white;
+}
+
+.container{
+
+width:900px;
+
+background:rgba(0,0,0,0.82);
+
+padding:45px;
+
+border-radius:25px;
+
+border:4px solid red;
+
+text-align:center;
+
+box-shadow:0 0 35px red;
+
+animation:glitch 0.15s infinite;
+}
+
+@keyframes glitch{
+
+0%{transform:translate(0px);}
+25%{transform:translate(2px,-2px);}
+50%{transform:translate(-2px,2px);}
+75%{transform:translate(1px,-1px);}
+100%{transform:translate(0px);}
+}
+
+.group{
+font-size:22px;
+color:#ff8a8a;
+}
+
+.timer{
+
+font-size:80px;
+
+color:red;
+
+margin-top:10px;
+
+text-shadow:0 0 20px red;
+}
+
+.title{
+
+font-size:60px;
+
+margin-top:20px;
+
+margin-bottom:30px;
+}
+
+.codeContainer{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+margin-bottom:25px;
+}
+
+.codeInput{
+
+width:85px;
+
+height:95px;
+
+font-size:50px;
+
+text-align:center;
+
+background:#111;
+
+color:white;
+
+border:3px solid red;
+
+border-radius:15px;
+}
+
+.toggle{
+margin-bottom:25px;
+}
+
+button{
+
+width:100%;
+
+padding:18px;
+
+font-size:28px;
+
+font-weight:bold;
+
+background:red;
+
+color:white;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="group" id="groupText"></div>
+
+<div class="timer" id="timer">15</div>
+
+<div class="title">FINAL ACCESS</div>
+
+<div class="codeContainer">
+
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+<input type="password" maxlength="1" class="codeInput">
+
+</div>
+
+<div class="toggle">
+
+<input type="checkbox" id="showPass">
+Show Code
+
+</div>
+
+<button onclick="checkCode()">
+UNLOCK
+</button>
+
+</div>
+
+<audio id="typingSound" preload="auto">
+<source src="https://www.soundjay.com/mechanical/sounds/keyboard-1.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="siren" preload="auto">
+<source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* GROUP */
+
+document.getElementById("groupText").innerHTML =
+localStorage.getItem("groupName");
+
+/* INPUT */
+
+const inputs =
+document.querySelectorAll(".codeInput");
+
+/* AUTO FOCUS */
+
+window.onload = ()=>{
+
+inputs[0].focus();
+
+};
+
+/* TIMER */
+
+let timeLeft = 15;
+
+const timer =
+document.getElementById("timer");
+
+const countdown = setInterval(()=>{
+
+timeLeft--;
+
+timer.innerHTML = timeLeft;
+
+if(timeLeft <= 0){
+
+clearInterval(countdown);
+
+window.location.href = "timeout.html";
+}
+
+},1000);
+
+/* INPUT SOUND */
+
+inputs.forEach((input,index)=>{
+
+input.addEventListener("input",()=>{
+
+const typing =
+document.getElementById("typingSound");
+
+typing.currentTime = 0;
+
+typing.play();
+
+if(input.value.length === 1 &&
+index < inputs.length - 1){
+
+inputs[index+1].focus();
+}
+
+});
+
+});
+
+/* BACKSPACE */
+
+inputs.forEach((input,index)=>{
+
+input.addEventListener("keydown",(e)=>{
+
+if(e.key === "Backspace" &&
+input.value === "" &&
+index > 0){
+
+inputs[index-1].focus();
+}
+
+});
+
+});
+
+/* SHOW PASSWORD */
+
+document.getElementById("showPass")
+.addEventListener("change",function(){
+
+inputs.forEach(input=>{
+
+input.type =
+this.checked ? "text" : "password";
+
+});
+
+});
+
+/* CHECK CODE */
+
+function checkCode(){
+
+let entered = "";
+
+inputs.forEach(input=>{
+
+entered += input.value;
+
+});
+
+if(entered === "5271938"){
+
+window.location.href = "success.html";
+}
+
+else{
+
+const siren =
+document.getElementById("siren");
+
+siren.play();
+
+setTimeout(()=>{
+
+window.location.href = "fail.html";
+
+},1500);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
